@@ -22,7 +22,6 @@ def scan(ip):
     # store as list
     clients_list = []
     for sent, received in answered_list:
-        # Aquí definiste la clave como "ip" (minúscula) y "MAC" (mayúscula)
         client_dict = {"ip": received.psrc, "MAC": received.hwsrc}
         clients_list.append(client_dict)
     return clients_list
@@ -33,7 +32,6 @@ def print_result(results_list):
     print("IP Address\t\tMAC Address")
     print("-"*50)
     for client in results_list:
-        # CORRECCIÓN AQUÍ: Cambiado 'IP' por 'ip' para que coincida con el diccionario
         print(f"{client['ip']}\t\t{client['MAC']}")
     print("-" * 50 + "\n")
 
