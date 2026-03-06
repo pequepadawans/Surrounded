@@ -9,8 +9,9 @@ Perfect for system administrators, cybersecurity students, or anyone wanting to 
 
 - **ARP Scanning:** Uses ARP broadcast packets for accurate detection on local networks (LAN).
 - **CLI Interface:** Simple and fast usage from the terminal.
-- **Clean Output:** Displays results in an organized table.
-- **Lightweight:** Depends only on the `scapy` library.
+- **Vendor Detection:** Identifies device manufacturers (Samsung, Apple, etc.) from MAC addresses using the [macvendors.com](https://macvendors.com) API.
+- **Export Results:** Save scan output to **CSV** or **TXT** using the `-o` flag.
+- **Clean Output:** Displays results in an organized table with IP, MAC, and Vendor columns.
 
 ## 📋 Prerequisites
 
@@ -21,19 +22,19 @@ Perfect for system administrators, cybersecurity students, or anyone wanting to 
 
 1. **Clone this repository:**
 
-2.  **Install dependencies:**
+2. **Install dependencies:**
 
     *For Linux (Debian/Ubuntu/Kali - Recommended):*
 
-    ```
-    sudo apt update
-    sudo apt install python3-scapy
+    ```bash
+    sudo apt update && sudo apt install python3-scapy
+    pip install requests
     ```
 
     *For Windows or Virtual Environments:*
 
-    ```
-    pip install scapy
+    ```bash
+    pip install scapy requests
     ```
 
 ## 💻 Usage
@@ -43,39 +44,48 @@ The tool needs to be run with superuser privileges because it manipulates the ne
 ### Basic Syntax
 
 ```bash
-sudo python3 surrounded.py -t <IP_RANGE>
+sudo python3 Surrounded.py -t <IP_RANGE>
 ```
 
 ### Arguments
 
-  - `-t` or `--target`: Specify the target IP or IP range (CIDR format).
+| Flag | Description |
+|------|-------------|
+| `-t` / `--target` | Target IP or IP range in CIDR format (required) |
+| `-o` / `--output` | Export results to a file — use `.csv` or `.txt` extension |
 
 ### Examples
 
-**Scan the entire local network (Common Class C):**
-
+**Scan and display results:**
 ```bash
-sudo python3 surrounded.py -t 192.168.1.1/24
+sudo python3 Surrounded.py -t 192.168.1.1/24
 ```
 
-**Scan a specific network:**
-
+**Scan and export to CSV:**
+```bash
+sudo python3 Surrounded.py -t 192.168.1.1/24 -o results.csv
 ```
-sudo python3 surrounded.py -t 10.0.0.1/24
+
+**Scan and export to TXT:**
+```bash
+sudo python3 Surrounded.py -t 192.168.1.1/24 -o results.txt
 ```
 
 ## 🖼️ Output Example
 
 ```text
 [*] Scanning network: 192.168.1.1/24 ...
+  [+] Found 192.168.1.1 — looking up vendor for a4:91:b1:xx:xx:xx...
+  [+] Found 192.168.1.15 — looking up vendor for bc:d1:12:xx:xx:xx...
 
---------------------------------------------------
-IP Address              MAC Address
---------------------------------------------------
-192.168.1.1             a4:91:b1:xx:xx:xx
-192.168.1.15            bc:d1:12:xx:xx:xx
-192.168.1.22            00:e0:4c:xx:xx:xx
---------------------------------------------------
+----------------------------------------------------------------------
+IP Address          MAC Address         Vendor
+----------------------------------------------------------------------
+192.168.1.1         a4:91:b1:xx:xx:xx   Netgear
+192.168.1.15        bc:d1:12:xx:xx:xx   Apple, Inc.
+----------------------------------------------------------------------
+
+[✓] Results exported to CSV: results.csv
 ```
 
 ## ⚠️ Legal Disclaimer
@@ -83,11 +93,7 @@ IP Address              MAC Address
 **For educational purposes only.**
 This tool is intended to be used on networks you own or have explicit permission to test. The author is not responsible for any misuse of this software.
 
-## 🗺️ Roadmap
 
-  -  Vendor detection (Samsung, Apple, etc.) based on MAC address.
-  -  Export results to file (CSV/TXT).
-  -  Web Interface using Flask.
 
 ## ❓How does it works? 
 
